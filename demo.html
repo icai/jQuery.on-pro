@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery event test</title>
+</head>
+<body>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+	<button>test</button>
+	<script>
+
+
+
+
+	(function($) {
+		var originalON = $.fn.on;
+		$.fn.on = function(types){
+	      	if (types && types.preventDefault && types.handleObj) {
+	                // ( event )  dispatched jQuery.Event
+	                handleObj = types.handleObj;
+	                jQuery(types.delegateTarget).on(
+	                handleObj.namespace ? handleObj.origType + "." + handleObj.namespace : handleObj.origType,
+	                handleObj.selector,
+	                handleObj.handler);
+	                return this;
+			}else{
+				originalON.apply(this,arguments);
+			}
+		}
+	})(jQuery);
+	
+
+
+	$(function() {
+		$('button').on('click',function(e){
+			var evt = e;
+
+			console.info('bind action');
+
+			$().off(e);
+			setTimeout(function(){
+				$().on(evt);
+			},20000);
+		})
+	});
+
+
+	</script>
+	
+</body>
+</html>
