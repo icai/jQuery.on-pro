@@ -19,7 +19,7 @@
                 handleObj.handler);
                 return this;
 		}else{
-			originalON.apply(this,arguments);
+			return originalON.apply(this,arguments);
 		}
 	}
 })(jQuery);
